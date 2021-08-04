@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MVC</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div id="header">
+        <h1>Company name</h1>
+    </div>
+    <div id="myTopnav" class="topnav">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a asp-controller="Admin" asp-action="Employees">Employees</a>
+            <a asp-controller="Login" asp-action="Logout">Logout</a>
+            <div id="username">Hello @User.Identity.Name!</div>
+        }
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <a asp-controller="Login" asp-action="Login">Login</a>
+        }
+        <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    <div id="row">
+            <div id="sidebar">
+                <h2>Weather report</h2>
+                <hr />
+                <div id="weather">@Html.Partial("_Weather")</div>
+            </div>
+            <div id="main">
+                @RenderBody()
+            </div>
+        </div>
+    <div id="footer">
+    </div>
+    <script>
+            function repeatEvery(func) {
+                let now = new Date();
+                let interval = 60000;
+                delay = interval - now % interval;
+
+                function start() {
+                    func();
+                    setInterval(func, interval);
+                }
+
+                 setTimeout(start, delay);
+            }
+
+            function refresh() {
+                $.ajax({
+                    type: "Get",
+                    url: "@Url.Action("Weather", "Home")",
+                    success: function (result) {
+                        $("#weather").html(result);
+                    }
+                })
+            }
+            repeatEvery(refresh);
+    </script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

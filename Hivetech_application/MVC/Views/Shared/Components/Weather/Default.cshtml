@@ -1,0 +1,9 @@
+﻿@model MVC.Models.WeatherModel.Root
+
+<div>
+    Weather: @Model.weather[0].main
+    <br />Weather description: @Model.weather[0].description
+    <br />Temperature: @Model.main.temp°C
+    <br />City: @Model.name
+    <br />Time: @DateTime.Now.ToShortTimeString()
+</div>

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<MVC.Models.EmployeeModel>
+
+<h1>Employee</h1>
+
+<form asp-action="SearchForEmployee">
+    <div class="form-group">
+        <label for="searchPhrase" class="control-label">Search for:</label>
+        <input type="text" style="width: 300px" name="searchPhrase" id="searchPhrase" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Search" class="btn btn-outline-secondary" />
+        <input type="submit" value="Reset" asp-action="ResetEmployees" class="btn btn-outline-secondary" />
+    </div>
+</form>
+
+<p>
+    <a asp-action="CreateEmployee" asp-controller="Admin">Create new employee</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hours)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hours)
+                </td>
+                <td>
+                    <a asp-action="EditEmployee" asp-controller="Admin" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="DetailsEmployee" asp-controller="Admin" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="DeleteEmployee" asp-controller="Admin" asp-route-id="@item.Id">Delete</a> |
+                    @if (item.Username == "0")
+                    {
+                        <a asp-action="UserForm" asp-controller="Admin" asp-route-id="@item.Id">Register</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
